@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Arabanızın Vergisiz Fiyatını Öğrenin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Arabanızın Vergisiz Fiyatını Öğrenin</h2>
+
+  <label for="price">Vergiler Dahil Fiyat (TL):</label>
+  <input type="number" id="price" placeholder="Örneğin: 2000000">
+
+  <label for="engine">Motor Hacmi:</label>
+  <select id="engine">
+    <option value="80">1600cc ve altı (%80 ÖTV)</option>
+    <option value="150">1600cc - 2000cc arası (%150 ÖTV)</option>
+    <option value="220">2000cc üstü (%220 ÖTV)</option>
+  </select>
+
+  <button onclick="calculate()">Vergisiz Fiyatı Hesapla</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculate() {
+      const price = parseFloat(document.getElementById('price').value);
+      const otvRate = parseFloat(document.getElementById('engine').value);
+
+      if (!price || price <= 0) {
+        document.getElementById('result').innerText = "Lütfen geçerli bir fiyat girin.";
+        return;
+      }
+
+      const taxMultiplier = 1 + (otvRate / 100);
+      const kdvMultiplier = 1.2; // %20 KDV
+      const totalMultiplier = taxMultiplier * kdvMultiplier;
+
+      const netPrice = price / totalMultiplier;
+
+      document.getElementById('result').innerText =
+        `Bu aracın vergisiz fiyatı yaklaşık: ${netPrice.toLocaleString('tr-TR', {style: 'currency', currency: 'TRY'})}`;
+    }
+  </script>
+
+</body>
+</html>
