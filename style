@@ -1,0 +1,54 @@
+<style>
+  label, select, input, button {
+    display: block;
+    margin: 10px 0;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+  }
+  #sonuc {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #1a1a1a;
+  }
+</style>
+
+<h2>Arabanızın Vergisiz Fiyatını Öğrenin</h2>
+
+<label for="fiyat">Vergiler Dahil Fiyat (TL):</label>
+<input type="number" id="fiyat" placeholder="Örn: 2000000" />
+
+<label for="motor">Motor Hacmi:</label>
+<select id="motor">
+  <option value="">Seçiniz</option>
+  <option value="0.80">1600cc ve altı</option>
+  <option value="1.50">1601cc - 2000cc arası</option>
+  <option value="2.20">2000cc üzeri</option>
+</select>
+
+<button onclick="hesapla()">Hesapla</button>
+
+<div id="sonuc"></div>
+
+<script>
+  function hesapla() {
+    const fiyat = parseFloat(document.getElementById("fiyat").value);
+    const motor = parseFloat(document.getElementById("motor").value);
+
+    if (!fiyat || !motor) {
+      document.getElementById("sonuc").innerText =
+        "Lütfen tüm bilgileri doldurun.";
+      return;
+    }
+
+    const vergisiz = fiyat / ((1 + motor) * 1.20);
+    const toplamVergi = fiyat - vergisiz;
+
+    document.getElementById("sonuc").innerText =
+      "Tahmini Vergisiz Fiyat: " +
+      vergisiz.toFixed(2) +
+      " TL\nDevlete Ödenen Vergi: " +
+      toplamVergi.toFixed(2) +
+      " TL";
+  }
+</script>
